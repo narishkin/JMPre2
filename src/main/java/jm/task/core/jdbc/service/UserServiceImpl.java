@@ -77,6 +77,7 @@ public class UserServiceImpl implements UserService {
             statement = Util.getMySQLConnection().createStatement();
             statement.executeUpdate("delete from users");
         } catch (ClassNotFoundException | SQLException e) {
+
 //            e.printStackTrace();
         }
     }
