@@ -22,7 +22,7 @@ public class UserServiceImpl implements UserService {
                     "age int(3), " +
                     "primary key(id))");
         } catch (ClassNotFoundException | SQLException e) {
-            e.printStackTrace();
+//            e.printStackTrace();
         }
     }
 
