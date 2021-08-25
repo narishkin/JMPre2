@@ -66,6 +66,7 @@ public class UserServiceImpl implements UserService {
                 list.add(user);
             }
         } catch (SQLException throwables) {
+
 //            throwables.printStackTrace();
         }
         return list;
