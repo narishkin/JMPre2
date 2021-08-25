@@ -3,6 +3,7 @@ package jm.task.core.jdbc.dao;
 import jm.task.core.jdbc.model.User;
 import jm.task.core.jdbc.util.Util;
 
+import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -12,19 +13,22 @@ import java.util.List;
 public class UserDaoJDBCImpl implements UserDao {
     public Statement statement;
     private static int idCounter = 1;
+
     public UserDaoJDBCImpl() {
 
     }
 
     public void createUsersTable() {
         try {
-            statement = Util.getMySQLConnection().createStatement();
+            Connection connection = Util.getMySQLConnection();
+            statement = connection.createStatement();
             statement.executeUpdate("create table Users (" +
                     "id int(5), " +
                     "name VARCHAR(20), " +
                     "lastname VARCHAR(20), " +
                     "age int(3), " +
                     "primary key(id))");
+            connection.commit();
         } catch (ClassNotFoundException | SQLException e) {
 //            e.printStackTrace();
         }
@@ -32,8 +36,10 @@ public class UserDaoJDBCImpl implements UserDao {
 
     public void dropUsersTable() {
         try {
-            statement = Util.getMySQLConnection().createStatement();
+            Connection connection = Util.getMySQLConnection();
+            statement = connection.createStatement();
             statement.executeUpdate("DROP TABLE Users");
+            connection.commit();
         } catch (ClassNotFoundException | SQLException e) {
 //            e.printStackTrace();
         }
@@ -41,10 +47,12 @@ public class UserDaoJDBCImpl implements UserDao {
 
     public void saveUser(String name, String lastName, byte age) {
         try {
-            statement = Util.getMySQLConnection().createStatement();
+            Connection connection = Util.getMySQLConnection();
+            statement = connection.createStatement();
             statement.executeUpdate("insert into users (id, name, lastname,age) values(" + idCounter + ", '" + name + "','" + lastName + "'," + age + ")");
             System.out.println("User с именем " + name + " добавлен в базу данных.");
             idCounter++;
+            connection.commit();
         } catch (ClassNotFoundException | SQLException e) {
 //            e.printStackTrace();
         }
@@ -52,8 +60,10 @@ public class UserDaoJDBCImpl implements UserDao {
 
     public void removeUserById(long id) {
         try {
-            statement = Util.getMySQLConnection().createStatement();
-            statement.executeUpdate("delete from users where id="+id);
+            Connection connection = Util.getMySQLConnection();
+            statement = connection.createStatement();
+            statement.executeUpdate("delete from users where id=" + id);
+            connection.commit();
         } catch (ClassNotFoundException | SQLException e) {
 //            e.printStackTrace();
         }
@@ -62,6 +72,8 @@ public class UserDaoJDBCImpl implements UserDao {
     public List<User> getAllUsers() {
         List<User> list = new ArrayList<>();
         try {
+            Connection connection = Util.getMySQLConnection();
+            statement = connection.createStatement();
             ResultSet resultSet = statement.executeQuery("select * from Users");
             while (resultSet.next()) {
                 Long id = resultSet.getLong("id");
@@ -69,8 +81,8 @@ public class UserDaoJDBCImpl implements UserDao {
                 user.setId(id);
                 list.add(user);
             }
-        } catch (SQLException throwables) {
-
+            connection.commit();
+        } catch (SQLException | ClassNotFoundException throwables) {
 //            throwables.printStackTrace();
         }
         return list;
@@ -78,10 +90,11 @@ public class UserDaoJDBCImpl implements UserDao {
 
     public void cleanUsersTable() {
         try {
-            statement = Util.getMySQLConnection().createStatement();
+            Connection connection = Util.getMySQLConnection();
+            statement = connection.createStatement();
             statement.executeUpdate("delete from users");
+            connection.commit();
         } catch (ClassNotFoundException | SQLException e) {
-
 //            e.printStackTrace();
         }
     }
