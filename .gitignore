@@ -1,6 +1,7 @@
 #InteliJ files and dirs
-.idea
+.idea/
 out
+target
 *.class
 *.DS_Store
 /*.xml
