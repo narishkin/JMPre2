@@ -1,2 +1,16 @@
+#InteliJ files and dirs
 .idea
+out
+*.class
+*.DS_Store
+/*.xml
+/*/*.xml
+*.iml
 
+#Standart .gitignore
+*.jar
+*.war
+*.ear
+*.log
+*.ipr
+*.iws
