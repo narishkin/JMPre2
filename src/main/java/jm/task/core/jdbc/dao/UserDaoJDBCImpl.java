@@ -47,7 +47,11 @@ public class UserDaoJDBCImpl implements UserDao {
         try {
             Connection connection = Util.getMySQLConnection();
             statement = connection.createStatement();
-            statement.executeUpdate("insert into users (id, name, lastname,age) values(" + idCounter + ", '" + name + "','" + lastName + "'," + age + ")");
+            statement.executeUpdate("insert into users (id, name, lastname,age) values(" +
+                    idCounter +
+                    ", '" + name +
+                    "','" + lastName +
+                    "'," + age + ")");
             System.out.println("User с именем " + name + " добавлен в базу данных.");
             idCounter++;
             connection.commit();
