@@ -4,6 +4,8 @@ import jm.task.core.jdbc.dao.UserDao;
 import jm.task.core.jdbc.dao.UserDaoHibernateImpl;
 import jm.task.core.jdbc.dao.UserDaoJDBCImpl;
 import jm.task.core.jdbc.model.User;
+import jm.task.core.jdbc.util.Util;
+import org.hibernate.SessionFactory;
 
 public class Main {
 
@@ -20,6 +22,7 @@ public class Main {
     private static void runCRUD(User... users) {
 //        UserDao userDao = new UserDaoJDBCImpl();
         UserDao userDao = new UserDaoHibernateImpl();
+        SessionFactory sf = Util.getSessionFactory("none");
         userDao.createUsersTable();
         for (User user : users) {
             userDao.saveUser(user.getName(), user.getLastName(), user.getAge());
