@@ -4,22 +4,13 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
-@Entity
-@Table(name = "users")
+
 public class User {
-    @Id
-    @Column(name = "id")
+
     private Long id;
-
-    @Column(name = "name")
     private String name;
-
-    @Column(name = "lastname")
     private String lastName;
-
-    @Column(name = "age")
     private Byte age;
-
     public User() {
 
     }
