@@ -16,14 +16,27 @@ public class UserDaoHibernateImpl implements UserDao {
 
     @Override
     public void createUsersTable() {
-        SessionFactory sf = Util.getSessionFactory("create");
-        sf.close();
+        SessionFactory sf = Util.getSessionFactory("none");
+        Session session = sf.openSession();
+        session.beginTransaction();
+        session.createSQLQuery("create table Users (" +
+                "id int(5), " +
+                "name VARCHAR(20), " +
+                "lastname VARCHAR(20), " +
+                "age int(3), " +
+                "primary key(id))").executeUpdate();
+        session.close();
+//        sf.close();
     }
 
     @Override
     public void dropUsersTable() {
-        SessionFactory sf = Util.getSessionFactory("drop");
-        sf.close();
+        SessionFactory sf = Util.getSessionFactory("none");
+        Session session = sf.openSession();
+        session.beginTransaction();
+        session.createSQLQuery("drop table  users").executeUpdate();
+        session.close();
+//        sf.close();
     }
 
     @Override
@@ -37,7 +50,7 @@ public class UserDaoHibernateImpl implements UserDao {
         session.getTransaction().commit();
         idCounter++;
         session.close();
-        sf.close();
+//        sf.close();
     }
 
     @Override
@@ -49,7 +62,7 @@ public class UserDaoHibernateImpl implements UserDao {
         session.delete(user);
         session.getTransaction().commit();
         session.close();
-        sf.close();
+//        sf.close();
     }
 
     @Override

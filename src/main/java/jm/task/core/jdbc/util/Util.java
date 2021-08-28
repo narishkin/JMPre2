@@ -14,8 +14,6 @@ import java.util.Properties;
 
 public class Util {
     // реализуйте настройку соеденения с БД
-
-
     public static Connection getMySQLConnection() throws ClassNotFoundException, SQLException {
         final String URL = "jdbc:mysql://localhost:3306/mysqltest?useSSL=false";
         final String USER = "root";
