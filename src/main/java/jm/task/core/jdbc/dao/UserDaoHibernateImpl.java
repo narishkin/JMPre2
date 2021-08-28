@@ -26,17 +26,17 @@ public class UserDaoHibernateImpl implements UserDao {
                 "age int(3), " +
                 "primary key(id))").executeUpdate();
         session.close();
-//        sf.close();
+        sf.close();
     }
 
     @Override
     public void dropUsersTable() {
-        SessionFactory sf = Util.getSessionFactory("none");
+        SessionFactory sf = Util.getSessionFactory("update");
         Session session = sf.openSession();
         session.beginTransaction();
         session.createSQLQuery("drop table  users").executeUpdate();
         session.close();
-//        sf.close();
+        sf.close();
     }
 
     @Override
@@ -50,7 +50,7 @@ public class UserDaoHibernateImpl implements UserDao {
         session.getTransaction().commit();
         idCounter++;
         session.close();
-//        sf.close();
+        sf.close();
     }
 
     @Override
@@ -62,12 +62,12 @@ public class UserDaoHibernateImpl implements UserDao {
         session.delete(user);
         session.getTransaction().commit();
         session.close();
-//        sf.close();
+        sf.close();
     }
 
     @Override
     public List<User> getAllUsers() {
-        SessionFactory sf = Util.getSessionFactory("none");
+        SessionFactory sf = Util.getSessionFactory("update");
         Session session = sf.openSession();
         List<User> list = session.createQuery("from User ", User.class).list();
         session.close();
