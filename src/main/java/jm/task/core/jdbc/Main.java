@@ -24,6 +24,16 @@ public class Main {
         for (User user : users) {
             userDao.saveUser(user.getName(), user.getLastName(), user.getAge());
         }
+
+
+
+
+
+
+
+
+
+
         userDao.getAllUsers().forEach(System.out::println);
         userDao.cleanUsersTable();
         userDao.dropUsersTable();
