@@ -14,6 +14,15 @@ import java.util.Properties;
 
 public class Util {
     // реализуйте настройку соеденения с БД
+    private static SessionFactory sf;
+
+    public static SessionFactory getSf() {
+        if (sf == null){
+            sf = getSessionFactory("none");
+        }
+        return sf;
+    }
+
     public static Connection getMySQLConnection() throws ClassNotFoundException, SQLException {
         final String URL = "jdbc:mysql://localhost:3306/mysqltest?useSSL=false";
         final String USER = "root";
