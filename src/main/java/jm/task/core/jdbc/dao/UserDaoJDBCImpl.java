@@ -3,15 +3,13 @@ package jm.task.core.jdbc.dao;
 import jm.task.core.jdbc.model.User;
 import jm.task.core.jdbc.util.Util;
 
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class UserDaoJDBCImpl implements UserDao {
     public Statement statement;
+    PreparedStatement preparedStatement;
     private static int idCounter = 1;
 
     public UserDaoJDBCImpl() {
@@ -29,6 +27,7 @@ public class UserDaoJDBCImpl implements UserDao {
                     "age int(3), " +
                     "primary key(id))");
             connection.commit();
+            connection.close();
         } catch (SQLException e) {
 //            e.printStackTrace();
         }
@@ -40,6 +39,7 @@ public class UserDaoJDBCImpl implements UserDao {
             statement = connection.createStatement();
             statement.executeUpdate("DROP TABLE Users");
             connection.commit();
+            connection.close();
         } catch (SQLException e) {
 //            e.printStackTrace();
         }
@@ -48,15 +48,16 @@ public class UserDaoJDBCImpl implements UserDao {
     public void saveUser(String name, String lastName, byte age) {
         try {
             Connection connection = Util.getJDBC();
-            statement = connection.createStatement();
-            statement.executeUpdate("insert into users (id, name, lastname,age) values(" +
-                    idCounter +
-                    ", '" + name +
-                    "','" + lastName +
-                    "'," + age + ")");
+            preparedStatement = connection.prepareStatement("insert into users (id, name, lastname,age) values(?,?,?,?)");
+            preparedStatement.setLong(1, idCounter);
+            preparedStatement.setString(2, name);
+            preparedStatement.setString(3, lastName);
+            preparedStatement.setByte(4, age);
+            preparedStatement.executeUpdate();
             System.out.println("User с именем " + name + " добавлен в базу данных.");
             idCounter++;
             connection.commit();
+            connection.close();
         } catch (SQLException e) {
 //            e.printStackTrace();
         }
@@ -68,6 +69,7 @@ public class UserDaoJDBCImpl implements UserDao {
             statement = connection.createStatement();
             statement.executeUpdate("delete from users where id=" + id);
             connection.commit();
+            connection.close();
         } catch (SQLException e) {
 //            e.printStackTrace();
         }
@@ -86,6 +88,7 @@ public class UserDaoJDBCImpl implements UserDao {
                 list.add(user);
             }
             connection.commit();
+            connection.close();
         } catch (SQLException throwables) {
 //            throwables.printStackTrace();
         }
@@ -98,6 +101,7 @@ public class UserDaoJDBCImpl implements UserDao {
             statement = connection.createStatement();
             statement.executeUpdate("delete from users");
             connection.commit();
+            connection.close();
         } catch (SQLException e) {
 //            e.printStackTrace();
         }
