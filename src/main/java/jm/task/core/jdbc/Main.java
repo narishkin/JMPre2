@@ -38,9 +38,10 @@ public class Main {
         for (User user : users) {
             userDao.saveUser(user.getName(), user.getLastName(), user.getAge());
         }
+        userDao.removeUserById(1);
         userDao.getAllUsers().forEach(System.out::println);
-        userDao.cleanUsersTable();
-        userDao.dropUsersTable();
+//        userDao.cleanUsersTable();
+//        userDao.dropUsersTable();
         sessionFactory.close();
     }
 }
