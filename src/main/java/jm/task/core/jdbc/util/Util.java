@@ -15,15 +15,28 @@ import java.util.Properties;
 public class Util {
     // реализуйте настройку соеденения с БД
     private static SessionFactory sf;
+    private static Connection connection;
 
     public static SessionFactory getSf() {
-        if (sf == null){
+        if (sf == null) {
             sf = getSessionFactory("none");
         }
         return sf;
     }
 
-    public static Connection getMySQLConnection() throws ClassNotFoundException, SQLException {
+    public static Connection getJDBC() {
+        if (connection == null) {
+            try {
+                connection = getMySQLConnection();
+            } catch (ClassNotFoundException | SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return connection;
+    }
+
+
+    private static Connection getMySQLConnection() throws ClassNotFoundException, SQLException {
         final String URL = "jdbc:mysql://localhost:3306/mysqltest?useSSL=false";
         final String USER = "root";
         final String PASS = "root";
@@ -31,7 +44,7 @@ public class Util {
         return DriverManager.getConnection(URL, USER, PASS);
     }
 
-    public static SessionFactory getSessionFactory(String s) {
+    private static SessionFactory getSessionFactory(String s) {
         try {
             Properties properties = new Properties();
             properties.setProperty(Environment.URL, "jdbc:mysql://localhost:3306/mysqltest");
