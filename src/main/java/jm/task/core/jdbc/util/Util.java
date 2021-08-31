@@ -25,12 +25,10 @@ public class Util {
     }
 
     public static Connection getJDBC() {
-        if (connection == null) {
-            try {
-                connection = getMySQLConnection();
-            } catch (ClassNotFoundException | SQLException e) {
-                e.printStackTrace();
-            }
+        try {
+            connection = getMySQLConnection();
+        } catch (ClassNotFoundException | SQLException e) {
+            e.printStackTrace();
         }
         return connection;
     }
