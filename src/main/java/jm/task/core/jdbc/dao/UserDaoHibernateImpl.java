@@ -10,7 +10,6 @@ import org.hibernate.Transaction;
 import java.util.List;
 
 public class UserDaoHibernateImpl implements UserDao {
-    private static long idCounter = 1L;
     SessionFactory sf;
 
     public UserDaoHibernateImpl() {
@@ -24,7 +23,7 @@ public class UserDaoHibernateImpl implements UserDao {
         try (Session session = sf.openSession()) {
             tx = session.beginTransaction();
             session.createSQLQuery("create table if not exists Users (" +
-                    "id int(5), " +
+                    "id int(5) AUTO_INCREMENT, " +
                     "name VARCHAR(20), " +
                     "lastname VARCHAR(20), " +
                     "age int(3), " +
@@ -59,10 +58,8 @@ public class UserDaoHibernateImpl implements UserDao {
         try (Session session = sf.openSession()) {
             tx = session.beginTransaction();
             User user = new User(name, lastName, age);
-            user.setId(idCounter);
             session.save(user);
             session.getTransaction().commit();
-            idCounter++;
         } catch (HibernateException e) {
             if (tx != null) {
                 tx.rollback();
@@ -86,7 +83,8 @@ public class UserDaoHibernateImpl implements UserDao {
             }
         }
     }
-//here
+
+    //here
     @Override
     public List<User> getAllUsers() {
         sf = Util.getSf();
